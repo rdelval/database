@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In a sharded database, a database client connects to the shard using a connection string with a sharding key value. If a sharding key is specified then all requests submitted in that session will be routed to the shard corresponding to the key value. They are referred to as Single Shard Queries (SSQ).
+In a sharded database, the database client connects to the shard using a connection string with a sharding key value. If a sharding key is specified then all requests submitted in that session will be routed to the shard corresponding to the key value. They are referred to as Single Shard Queries (SSQ).
 
 If the sharding key cannot be provided as part of database connection string, then a session will have to be established on the coordinator database (catadb). All the queries submitted from such sessions can in principle touch data on any set of shard databases. They are referred to as Cross Shard Queries (CSQ).
 

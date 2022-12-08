@@ -6,7 +6,7 @@ One of the benefits of using Docker is quick and easy provisioning.  Oracle prov
 
 - *Datasource*: Oracle Database
 - *TwitterFeed*: Static Twitter posts related to products in the datasource
-- *AlphaOffice UI*: Node.js application that makes REST calls to the RESTClient and TwitterFeed containers
+- *AlphaOffice UI*: Node.js application that makes REST calls to the RESTClient and Twitter  Feed containers
 
 You will use various Docker commands to setup, run and connect into containers. Concepts of Docker volumes, networking and intra-container communication will be used.
 

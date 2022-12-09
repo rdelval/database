@@ -3,7 +3,7 @@
 
 ## About this Workshop
 
-In this workshop you will learn how to deploy Oracle Sharding, work with the sharded database and scale the sharded database. You will also learn how to migrate an application from a non-shard database to a sharded database.
+In this workshop you will learn how to work with JSON in a sharded database. In addition, you will also learn how to access, update and write queries for this data in Java and Python. These queries will use both SQL and also SODA (Simple Oracle Document Access) to work with JSON data.
 
 *Estimated Lab Time:* 4 hours.
 

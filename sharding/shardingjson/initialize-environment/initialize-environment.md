@@ -26,7 +26,6 @@ This lab assumes you have:
     - Oracle Sharding GSM  Container
     - Oracle Sharding Catalog container
     - Three Oracle shard Database containers
-    - Nodejs eShop Application Container
 
 2. On the *Web Browser* window on the right preloaded with *eShop Application*, click on the *Login* button to login to the Application and select the saved credentials to login. These credentials have been saved within *Web Browser* and are provided below for reference
 
@@ -45,7 +44,7 @@ This lab assumes you have:
 
     ![application demo](images/application-demo.png " ")
 
-    If successful, the page above is displayed and as a result your environment is now ready.  
+If successful, the page above is displayed and as a result your environment is now ready.  
 
     You may now proceed to the next lab.
 

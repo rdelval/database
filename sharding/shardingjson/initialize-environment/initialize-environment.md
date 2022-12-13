@@ -4,96 +4,86 @@
 
 In this lab we will review and startup all components required to successfully run this workshop.
 
-*Estimated Lab Time:* 30 Minutes.
+*Estimated Lab Time:* 10 Minutes.
+
+Watch the video for a quick walk through of the Initialize Environment lab.
+
+[](youtube:e3EXx3BMhec)
 
 ### Objectives
 - Initialize the workshop environment.
 
 ### Prerequisites
 This lab assumes you have:
-- An Oracle Cloud account
+- A Free Tier, Paid or LiveLabs Oracle Cloud account
 - You have completed:
     - Lab: Prepare Setup (*Free-tier* and *Paid Tenants* only)
     - Lab: Environment Setup
 
-**NOTE:** *When doing Copy/Paste using the convenient* **Copy** *function used throughout the guide, you must hit the* **ENTER** *key after pasting. Otherwise the last line will remain in the buffer until you hit* **ENTER!**
-
 ## Task 1: Validate That Required Processes are Up and Running.
+1. Now with access to your remote desktop session, proceed as indicated below to validate your environment before you start executing the subsequent labs. The following Processes should be up and running:
 
-**NOTE:** NoVNC remote desktop is active on all 4 hosts that are part of your environment. While you are provided with a single remote desktop URL for *cata* host, you can access other hosts with the same URL after replacing the IP address in the URL with the respective Public IP of the target host.
+    - Oracle Sharding GSM  Container
+    - Oracle Sharding Catalog container
+    - Three Oracle shard Database containers
+    - Nodejs eShop Application Container
 
-  ![Remote Desktop Landing Page](./images/remote_desktop_landing1.png "Remote Desktop Landing Page")
+2. On the *Web Browser* window on the right preloaded with *eShop Application*, click on the *Login* button to login to the Application and select the saved credentials to login. These credentials have been saved within *Web Browser* and are provided below for reference
 
-1. Now with access to your remote desktop session(s), proceed as indicated below to validate your environment before you start executing the subsequent labs. The following Processes should be up and running:
-
-    - Database Listeners
-        - LISTENER (1521)
-    - Database Server Instances (see below)
-
-    | Public IP       | Private IP   | Hostname | CDB Name | PDB Name |Listener port|
-    | --------------- |  :--------:  | -------- | -------- | -------- |  :-------:  |
-    | xxx.xxx.xxx.xxx | 10.0.0.151   | cata     | cata     | catapdb  | 1521        |
-    | xxx.xxx.xxx.xxx | 10.0.0.152   | shd1     | shd1     | shdpdb1  | 1521        |
-    | xxx.xxx.xxx.xxx | 10.0.0.153   | shd2     | shd2     | shdpdb2  | 1521        |
-    | xxx.xxx.xxx.xxx | 10.0.0.154   | shd3     | shd3     | shdpdb3  | 1521        |
-    {: title="Summary of Databases and Listeners by Host"}
-
-
-2. Click the *SQL Developer* icon on the desktop to Launch the application, then Click on the *+* sign next to database connection listed under Oracle Connections
-
-    ![Launch SQL Developer #1](./images/launch_sql_developer1.png "Launch SQL Developer #1")
-
-    If all expected Databases are running as shown below, then your environment is ready for the next task.  
-
-    ![Launch SQL Developer #2](./images/launch_sql_developer2.png "Launch SQL Developer #2")
-
-3. If you are unable to connect to any of the PDBs or CDB shown on the list, connect to the respective host and restart the DB service accordingly via a Terminal session
-
+    ![oracle sharding noVNC](images/oracle-shading-noVnc.png " ")
     ```
-    <copy>
-    sudo systemctl restart oracle-database
-    </copy>
+    Username: <copy>demo@eshop.com</copy>
     ```
 
-You may now proceed to the next lab
-
-## Appendix 1: Managing Startup Services
-
-1. Database service (All databases and Standard Listener).
-
-    - Start
-
     ```
-    <copy>
-    sudo systemctl start oracle-database
-    </copy>
-    ```
-    - Stop
-
-    ```
-    <copy>
-    sudo systemctl stop oracle-database
-    </copy>
+    Password: <copy>demo</copy>
     ```
 
-    - Status
+    ![application login](images/application-login.png " ")
 
-    ```
-    <copy>
-    systemctl status oracle-database
-    </copy>
-    ```
+3. Confirm successful login. Please note that it takes about 2 minutes after instance provisioning for all processes to fully start.
 
-    - Restart
+    ![application demo](images/application-demo.png " ")
 
-    ```
-    <copy>
-    sudo systemctl restart oracle-database
-    </copy>
-    ```
+    If successful, the page above is displayed and as a result your environment is now ready.  
 
+    You may now proceed to the next lab.
+
+4. If you are still unable to login or the login page is not functioning after reloading from the *Workshop Links* bookmark folder, open a terminal session and proceed as indicated below to validate the services.
+
+    - Oracle Sharding container Details
+
+        ```
+        <copy>
+        sudo docker ps -a
+        </copy>
+        ```
+        ![sharding docker](images/sharding-docker.png " ")
+
+    - If a container is stopped and not in running state then try to restart it by using below docker command.
+
+        ```
+        <copy>
+        sudo docker stop <container ID/NAME>
+        </copy>
+        <copy>
+        sudo docker start <container ID/NAME>
+        </copy>
+        ```
+    - For multiple containers, run the following to restart all at once:
+
+        ```
+        <copy>
+        sudo docker container stop $(docker container list -qa)
+        </copy>
+        <copy>
+        sudo docker container start $(docker container list -qa)
+        </copy>
+        ```
+
+You may now proceed to the next lab.
 
 ## Acknowledgements
-* **Author** - Rene Fontcha, LiveLabs Platform Lead, NA Technology
-* **Contributors** - Rene Fontcha, Shefali Bhargava, DB Sharding Product Management
-* **Last Updated By/Date** - Shefali Bhargava, DB Sharding Product Management, October 2022
+* **Authors** - Shailesh Dwivedi, Database Sharding PM , Vice President
+* **Contributors** - Alex Kovuru, Nishant Kaushik, Ashish Kumar, Priya Dhuriya, Richard Delval, Param Saini,Jyoti Verma, Virginia Beecher, Rodrigo Fuentes
+* **Last Updated By/Date** - Shefali Bhargava - September 2022

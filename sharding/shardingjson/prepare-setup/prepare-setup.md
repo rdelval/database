@@ -17,6 +17,7 @@ This lab assumes you have:
 1.  Click on the link below to download the Resource Manager zip file you need to build your environment:
 
     - [ods-ha-mkplc-freetier.zip](https://objectstorage.us-ashburn-1.oraclecloud.com/p/363ck0w8GxOQKm4y2ETec1r6-P-_vBG57-QtOYDvtCYe8Vupv1--rqpClYpTamQu/n/natdsecurity/b/stack/o/ods-ha-mkplc-freetier.zip)
+    * Need to updare this with URL of my image
 
 2.  Save in your downloads folder.
 

@@ -27,28 +27,7 @@ This lab assumes you have:
     - Oracle Sharding Catalog container
     - Three Oracle shard Database containers
 
-2. On the *Web Browser* window on the right preloaded with *eShop Application*, click on the *Login* button to login to the Application and select the saved credentials to login. These credentials have been saved within *Web Browser* and are provided below for reference
-
-    ![oracle sharding noVNC](images/oracle-shading-noVnc.png " ")
-    ```
-    Username: <copy>demo@eshop.com</copy>
-    ```
-
-    ```
-    Password: <copy>demo</copy>
-    ```
-
-    ![application login](images/application-login.png " ")
-
-3. Confirm successful login. Please note that it takes about 2 minutes after instance provisioning for all processes to fully start.
-
-    ![application demo](images/application-demo.png " ")
-
-If successful, the page above is displayed and as a result your environment is now ready.  
-
-    You may now proceed to the next lab.
-
-4. If you are still unable to login or the login page is not functioning after reloading from the *Workshop Links* bookmark folder, open a terminal session and proceed as indicated below to validate the services.
+2. Open a terminal session and proceed as indicated below to validate the services.
 
     - Oracle Sharding container Details
 
@@ -59,7 +38,7 @@ If successful, the page above is displayed and as a result your environment is n
         ```
         ![sharding docker](images/sharding-docker.png " ")
 
-    - If a container is stopped and not in running state then try to restart it by using below docker command.
+    - If a container is stopped and not in running state then try to restart it by using the below docker command.
 
         ```
         <copy>
@@ -69,20 +48,11 @@ If successful, the page above is displayed and as a result your environment is n
         sudo docker start <container ID/NAME>
         </copy>
         ```
-    - For multiple containers, run the following to restart all at once:
-
-        ```
-        <copy>
-        sudo docker container stop $(docker container list -qa)
-        </copy>
-        <copy>
-        sudo docker container start $(docker container list -qa)
-        </copy>
-        ```
+    
 
 You may now proceed to the next lab.
 
 ## Acknowledgements
-* **Authors** - Shailesh Dwivedi, Database Sharding PM , Vice President
-* **Contributors** - Alex Kovuru, Nishant Kaushik, Ashish Kumar, Priya Dhuriya, Richard Delval, Param Saini,Jyoti Verma, Virginia Beecher, Rodrigo Fuentes
-* **Last Updated By/Date** - Shefali Bhargava - September 2022
+* **Authors** - Richard Delval
+* **Contributors** - Param Saini,Jyoti Verma, Pankaj Chandiramani, Shefali Bhargava, Virginia Beecher
+* **Last Updated By/Date** - 

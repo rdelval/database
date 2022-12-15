@@ -11,7 +11,7 @@ Watch the video below for a quick walk through of the lab.
 
 ### Objectives
 
-In this lab, you will deploy a sharded database with 2 shard.
+In this lab, you will connect to the sharded DB and create a sharded table to hold our JSON data.
 
 ### Prerequisites
 This lab assumes you have:
@@ -21,197 +21,26 @@ This lab assumes you have:
     - Lab: Environment Setup
     - Lab: Initialize Environment
 
-## Task 1: Install Shard Director Software
+## Task 1: Connect to the DB with SQL Developer
 
-In this workshop we choose to co-locate the shard director software on the same host as the shard catalog database, it must be installed in a separate Oracle Home.
+In the remote desktop session, open up SQL Developer by choosing **Applications** from the top menu, then select **Programming** and then select the **SQL Developer** icon.
 
-1. From your remote desktop session connected to host *cata* as user **oracle**, open a Terminal session and the blocks below to create two config files needed to switch environment between catalog and GSM.
-
-    - create a file named gsm.sh.
-
-    ```
-    <copy>
-    cat >gsm.sh <<EOF
-    export ORACLE_BASE=/opt/oracle
-    export ORACLE_HOME=/opt/oracle/product/19c/gsmhome_1
-    export LD_LIBRARY_PATH=\$ORACLE_HOME/lib
-    export PATH=\$ORACLE_HOME/bin:\$PATH
-    EOF
-    </copy>
-    ```
-
-    - create a file named cata.sh.
-
-    ```
-    <copy>
-    cat >cata.sh <<EOF
-    export ORACLE_BASE=/opt/oracle
-    export ORACLE_HOME=/opt/oracle/product/19c/dbhome_1
-    export LD_LIBRARY_PATH=\$ORACLE_HOME/lib
-    export PATH=\$ORACLE_HOME/bin:\$PATH
-    EOF
-    </copy>
-    ```
-
-2. Switch to the GSM environment.
-
-    ```
-    [oracle@cata ~]$ <copy>. ./gsm.sh</copy>
-    [oracle@cata ~]$
-    ```
-
-3. Unzip the Installation package. For your convenience and in the interest of time, the *Oracle Database 19c Global Service Manager (GSM)* software package has been downloaded from Oracle E-Delivery platform and staged under */opt/oracle/stage*. It's also available from OTN like DB and other Oracle software.
+First we need to create a DB connection to the Catalog DB. 
 
 
-    ```
-    <copy>
-    cd /opt/oracle/stage/
-    unzip V982067-01.zip
-    cd gsm
-    ls -ltrh
-    </copy>
-    ```
+![Sqldevconnection](images/sqldevconnect.png)
 
-4. Run the following block to create the response file needed for a silent install.
+1. Click the green Plus sign in the upper left of SQL Developer to add a new Connection.
+2. A New Connection Window will appear as in the Screenshot above
+3. Provide a name for the new connection such as 'Shard DB Catalog'
+4. The Shard user is named 'app_schema' with a password of 'app_schema'
+5. For the hostname use '10.0.20.150' This is the internal IP Address of the Catalog container. Port is 1521.
+6. For the Service name use 'pcat1pdb'
 
-    ```
-    <copy>
-    cat >response/gsm_install_livelabs.rsp <<EOF
-
-    ###############################################################################
-    ## Copyright(c) Oracle Corporation 1998,2019. All rights reserved.           ##
-    ##                                                                           ##
-    ## Specify values for the variables listed below to customize                ##
-    ## your installation.                                                        ##
-    ##                                                                           ##
-    ## Each variable is associated with a comment. The comment                   ##
-    ## can help to populate the variables with the appropriate                   ##
-    ## values.                                                                   ##
-    ##                                                                           ##
-    ###############################################################################
-
-    #-------------------------------------------------------------------------------
-    # Do not change the following system generated value.
-    #-------------------------------------------------------------------------------
-    oracle.install.responseFileVersion=/oracle/install/rspfmt_gsminstall_response_schema_v19.0.0
-
-    #-------------------------------------------------------------------------------
-    # Unix group to be set for the inventory directory.
-    #-------------------------------------------------------------------------------
-    UNIX_GROUP_NAME=oinstall
-    #-------------------------------------------------------------------------------
-    # Inventory location.
-    #-------------------------------------------------------------------------------
-    INVENTORY_LOCATION=/opt/oracle/oraInventory
-    #-------------------------------------------------------------------------------
-    # Complete path of the Oracle Home
-    #-------------------------------------------------------------------------------
-    ORACLE_HOME=/opt/oracle/product/19c/gsmhome_1
-
-    #-------------------------------------------------------------------------------
-    # Complete path of the Oracle Base.
-    #-------------------------------------------------------------------------------
-    ORACLE_BASE=/opt/oracle
-    EOF
-    ls -ltrh response/gsm_install_livelabs.rsp
-    </copy>
-    ```
-5. Create the gsm home directory.
-
-    ```
-    [oracle@cata /opt/oracle/stage/gsm]$ <copy>mkdir -p /opt/oracle/product/19c/gsmhome_1</copy>
-    [oracle@cata /opt/oracle/stage/gsm]$
-    ```
-
-6. Install the gsm
-
-    ```
-    [oracle@cata /opt/oracle/stage/gsm]$ <copy>./runInstaller -silent -responseFile /opt/oracle/stage/gsm/response/gsm_install_livelabs.rsp -showProgress -ignorePrereq</copy>
-    ```
-
-7. The progress screen will look like this. Ignore the warning.
-
-    ```
-    Starting Oracle Universal Installer...
-
-    Checking Temp space: must be greater than 551 MB.   Actual 33580 MB    Passed
-    Preparing to launch Oracle Universal Installer from /tmp/OraInstall2020-12-06_08-54-28AM. Please wait ...[oracle@cata ~]$ [WARNING] [INS-13014] Target environment does not meet some optional requirements.
-       CAUSE: Some of the optional prerequisites are not met. See logs for details. /opt/oracle/oraInventory/logs/installActions2020-12-06_08-54-28AM.log
-       ACTION: Identify the list of failed prerequisite checks from the log: /opt/oracle/oraInventory/logs/installActions2020-12-06_08-54-28AM.log. Then either from the log file or from installation manual find the appropriate configuration to meet the prerequisites and fix it manually.
-    The response file for this session can be found at:
-     /opt/oracle/product/19c/gsmhome_1/install/response/gsm_2020-12-06_08-54-28AM.rsp
-
-    You can find the log of this install session at:
-     /opt/oracle/oraInventory/logs/installActions2020-12-06_08-54-28AM.log
-
-    Prepare in progress.
-    ..................................................   8% Done.
-
-    Prepare successful.
-
-    Copy files in progress.
-    ..................................................   13% Done.
-    ..................................................   19% Done.
-    ..................................................   27% Done.
-    ..................................................   33% Done.
-    ..................................................   38% Done.
-    ..................................................   43% Done.
-    ..................................................   48% Done.
-    ..................................................   53% Done.
-    ..................................................   58% Done.
-    ..................................................   64% Done.
-    ..................................................   69% Done.
-    ..................................................   74% Done.
-    ..................................................   79% Done.
-
-    Copy files successful.
-
-    Link binaries in progress.
-
-    Link binaries successful.
-
-    Setup files in progress.
-    ........................................
-    Setup files successful.
-
-    Setup Inventory in progress.
-
-    Setup Inventory successful.
-    ..........
-    Finish Setup in progress.
-    ..................................................   84% Done.
-
-    Finish Setup successful.
-    The installation of Oracle Distributed Service and Load Management was successful.
-    Please check '/opt/oracle/oraInventory/logs/silentInstall2020-12-06_08-54-28AM.log' for more details.
-
-    Setup Oracle Base in progress.
-
-    Setup Oracle Base successful.
-    ..................................................   95% Done.
-
-    As a root user, execute the following script(s):
-    	1. /opt/oracle/product/19c/gsmhome_1/root.sh
+A new connection will be created and we are now connected to the shard catalog as the user app_schema. From here we will proceed to use SQL Developer to create the necessary schemas.
 
 
-
-    Successfully Setup Software with warning(s).
-    ..................................................   100% Done.
-    ```
-
-    **Notes:** Ignore the warning in the *Prerequisites* part at the beginning of the output above. It's due to the swap size being lower than the recommended value based on available memory
-
-
-8. Run the root.sh as **oracle** user using **SUDO**.
-
-    ```
-    [oracle@cata /opt/oracle/stage/gsm]$ <copy>sudo /opt/oracle/product/19c/gsmhome_1/root.sh</copy>
-    Check /opt/oracle/product/19c/gsmhome_1/install/root_cata_2020-11-28_01-45-39-535370417.log for the output of root script
-    [oracle@cata /opt/oracle/stage/gsm]$<copy>cd ~</copy>
-    [oracle@cata ~]$
-    ```
-
-## Task 2: Setup Catalog Database
+## Task 2: Create the Sharded JSON table
 
 1. Make sure you are in the catalog database environment by running *`. .set-env-db.sh`* and selecting *cata* from the list.
 
@@ -1089,3 +918,6 @@ You may now proceed to the next lab.
 * **Author** - Minqiao Wang, DB Product Management, Dec 2020
 * **Contributors** - Rene Fontcha, Shefali Bhargava
 * **Last Updated By/Date** - Shefali Bhargava, DB Sharding Product Management, October 2022
+
+
+[def]: images/sqldevconnect.png

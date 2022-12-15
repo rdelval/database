@@ -1,22 +1,8 @@
-# Oracle Shard Database Deployment
+# Prepare the Sharded DB
 
 ## Introduction
 
-Now, we have 4 database instances. We will use cata as the catalog database, shd1 and shd2 use as the shard database. The shd3 use as the third shard will be added to the shard database in the last lab.
-
-The 4 database instances sample information like this:
-
-| Public IP       | Private IP | Hostname | CDB Name | PDB Name |
-| --------------- | ---------- | -------- | -------- | -------- |
-| xxx.xxx.xxx.xxx | 10.0.0.151   | cata     | cata     | catapdb  |
-| xxx.xxx.xxx.xxx | 10.0.0.152   | shd1     | shd1     | shdpdb1  |
-| xxx.xxx.xxx.xxx | 10.0.0.153   | shd2     | shd2     | shdpdb2  |
-| xxx.xxx.xxx.xxx | 10.0.0.154   | shd3     | shd3     | shdpdb3  |
-{: title="Summary of container DBs (CDB) and Puggables DBs (PDB) by Host"}
-
-Following is the topology used for System Managed Sharding we will create in this workshop:
-
-![System topology diagram.](images/systemtopology.png)
+Now, we have 
 
 *Estimated Lab Time:* 60 minutes.
 

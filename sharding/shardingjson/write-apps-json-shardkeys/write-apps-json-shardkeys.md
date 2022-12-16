@@ -1,8 +1,10 @@
-# Write Apps to Insert JSON using shard keys
+# Write Apps to Insert JSON using Shard Keys
 
 ## Introduction
 
-In this lab, you will setup a non-sharded database application. You will migrate the schema and data to the sharded database in the next lab. The demo java application is designed for sharded database, but also can work with the non-sharded database with a little modified. In order to save the resource, we will use a PDB in the shard3 host to simulate a non-sharded instance.
+In this lab, you will run Java and Python code that will connect to a Shard in our Sharded Database using a shard key and then insert a new JSON document into that shard.
+
+Note that the Lab consists of Java and Python code that perform essentially the same task. Participants are welcome to run through the entire Lab, running both Java and Python code. No conflicts will arise. But for those interested only in **Java**, only Tasks 1 and 2 are necessary here. For those only interested in **Python**, only Tasks 3 and 4 are necessary here.
 
 *Estimated Lab Time:* 30 minutes.
 
@@ -13,10 +15,8 @@ Watch the video below for a quick walk through of the lab.
 
 In this lab, you will perform the following steps:
 
-- Create a non-shard service.
-- Create the demo schema
-- Setup and run the demo application
-- Export the demo data.
+- Examine and Run a Java Application to Insert JSON into a shard
+- Examine and Run a Python Application to Insert JSON into a Shard
 
 
 ### Prerequisites
@@ -26,10 +26,10 @@ This lab assumes you have:
     - Lab: Prepare Setup (*Free-tier* and *Paid Tenants* only)
     - Lab: Environment Setup
     - Lab: Initialize Environment
-    - Lab: Oracle Shard Database Deployment
+    - Lab: Prepare the Sharded Database
 
 
-## Task 1: Create a Non-Shard Service
+## Task 1: Initialize the Java Environment
 
 
 1. Duplicate the remote desktop browser tab connecting to host *cata* and replace the IP address in the address bar with the Public IP address of host *shd3*. Open a terminal session

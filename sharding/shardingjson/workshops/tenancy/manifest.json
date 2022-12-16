@@ -27,12 +27,12 @@
       "filename": "../../initialize-environment/initialize-environment.md"
     },
     {
-      "title": "Lab 4: Deploy the Sharded Database",
-      "filename": "../../shard-db-deployment/shard-db-deployment.md"
+      "title": "Lab 4: Prepare the Sharded DB",
+      "filename": "../../prepare-sharded-db/prepare-sharded-db.md"
     },
     {
-      "title": "Lab 5: Setup a Non-Shard Database Application",
-      "filename": "../../setup-nonshard-app/setup-nonshard-app.md"
+      "title": "Lab 5: Write Applications using JSON and Shard Keys",
+      "filename": "../../write-apps-json-shardkeys/write-apps-json-shardkeys.md"
     },
     {
       "title": "Lab 6: Migrate to Sharded Database",

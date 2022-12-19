@@ -4,7 +4,7 @@
 
 In this lab, you will run Java and Python code that will connect to a Shard in our Sharded Database using a shard key and then insert a new JSON document into that shard.
 
-Note that the Lab consists of Java and Python code that perform essentially the same task. Participants are welcome to run through the entire Lab, running both Java and Python code. No conflicts will arise. But for those interested only in **Java**, only Tasks 1 and 2 are necessary here. For those only interested in **Python**, only Tasks 3 and 4 are necessary here.
+Note that the Lab consists of Java and Python code that perform essentially the same task. Participants are welcome to run through the entire Lab, running both Java and Python code. These tasks are complementary and no conflicts will arise. But for those interested only in **Java**, only Tasks 1 and 2 are necessary here. For those only interested in **Python**, only Tasks 3 and 4 are necessary here.
 
 *Estimated Lab Time:* 30 minutes.
 
@@ -15,8 +15,8 @@ Watch the video below for a quick walk through of the lab.
 
 In this lab, you will perform the following steps:
 
-- Examine and Run a Java Application to Insert JSON into a shard
-- Examine and Run a Python Application to Insert JSON into a Shard
+- Prepare and Run a Java Application to Insert JSON into a shard
+- Prepare and Run a Python Application to Insert JSON into a Shard
 
 
 ### Prerequisites
@@ -31,6 +31,83 @@ This lab assumes you have:
 
 ## Task 1: Initialize the Java Environment
 
+1. Open up the Home Folder. This can be done by double-clicking on the Home Folder icon in the left hand side of the Remote Desktop.
+
+2. Open up the appscripts folder. This folder contains all the application examples we will be using in this lab. Open up the javasamples folder which contains all the java samples we will be using in this lab.
+
+3. Take a look at the file QuickInsertShard.java file by double-clicking on it. This should open up the file in TextEditor. The contents of the file are reproduced below:
+
+```
+package com.oracle.jdbctest;
+
+import java.sql.Connection;
+import java.util.Properties;
+import java.util.List;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+
+// Sharding and UCP imports
+import oracle.jdbc.OracleShardingKey;
+import oracle.jdbc.OracleType;
+import oracle.jdbc.pool.OracleDataSource;
+import oracle.ucp.jdbc.PoolDataSourceFactory;
+import oracle.ucp.jdbc.PoolDataSource;
+
+
+/*
+* The sample demonstrates connecting to a Sharded Database using
+* Oracle JDBC driver and UCP as a client side connection pool.
+*/
+public class QuickInsertShard {
+
+ public static void main(String args[]) throws Exception {
+
+// TNS_ADMIN - Should be the path where the tnsnames.ora file resides
+// dbshard_rw - It is the TNS alias present in tnsnames.ora.
+// Note that the connection is to the Shard Director (GSM) and the service name is the shard RW service
+final String DB_URL="jdbc:oracle:thin:@dbshard_rw?TNS_ADMIN=/home/opc/dbhome/";
+// Update the Database Username and Password to the Shard User
+final String DB_USER = "app_schema";
+String DB_PASSWORD = "app_schema" ;
+
+
+// Get the PoolDataSource for UCP
+PoolDataSource pds = PoolDataSourceFactory.getPoolDataSource();
+
+// Set the connection factory first before all other properties
+pds.setConnectionFactoryClassName(OracleDataSource.class.getName());
+pds.setURL(DB_URL);
+pds.setUser(DB_USER);
+pds.setPassword(DB_PASSWORD);
+pds.setConnectionPoolName("JDBC_UCP_POOL");
+
+
+// We cannot get the connection until we have the Shard key which is part of the SQL
+// We first set the sharding key or document id
+String shardingKeyVal="10";
+
+// Now we build the connection using this shard key
+OracleShardingKey sdkey = pds.createShardingKeyBuilder().subkey(shardingKeyVal, OracleType.VARCHAR2).build();
+System.out.println("Initiating UCP and Creating Connection...");
+Connection conn = pds.createConnectionBuilder().shardingKey(sdkey).build();
+
+PreparedStatement pstmt = conn.prepareStatement("INSERT INTO CUSTOMERS  VALUES (:1,:2)");
+
+String str = "{\"name\":\"Jean\", \"job\": \"Intern\", \"salary\":20000}";
+pstmt.setString(1, shardingKeyVal);
+pstmt.setObject(2, str, OracleType.JSON);
+pstmt.execute();
+
+// We are done, so close the connection to the shard
+conn.close();
+
+// At this point we could open up a new shard connection using a different sharding key
+
+ }} // End of QuickInsertShard
+ ```
+
+ 
 
 1. Duplicate the remote desktop browser tab connecting to host *cata* and replace the IP address in the address bar with the Public IP address of host *shd3*. Open a terminal session
 
